@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+    <h2 class="mb-4 text-center">My Account</h2>
+
+    <!-- Personal Information Card -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Personal Information</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Name:</strong> {{ user.get_full_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Mobile Number:</strong> {{ mobile|default:"Not provided" }}</p>
+        </div>
+    </div>
+
+    <!-- Past Orders Table -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Past Orders</h5>
+        </div>
+        <div class="card-body">
+            {% if orders %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Total Amount</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.id }}</td>
+                                    <td>{{ order.timestamp|date:"d M Y, H:i" }}</td>
+                                    <td>₹{{ order.total_price }}</td>
+                                    <td><span class="badge bg-primary">{{ order.status }}</span></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted text-center">You have no past orders.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <!-- Optional: Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f7f7;
+            align-items:center;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 150px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+        }
+        .login-btn {
+            background-color: #4169E1;
+            color: white;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 10px 0;
+            font-size: 1.1rem;
+        }
+        .login-btn:hover {
+            background-color: #0000FF;
+            color:white;
+        }
+        h2 {
+            color: #4169E1;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2 class="text-center mb-4"><img src="{% static "image/Scanteen.png" %}" style="width:40px;height:40px; margin-right:8px;">Admin Login</h2>
+
+    <!-- Display Django messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.username|as_crispy_field }}
+        </div>
+        <div class="mb-3">
+            {{ form.password|as_crispy_field }}
+        </div>
+        <button type="submit" class="btn w-100 login-btn">Login</button>
+    </form>
+</div>
+
+<!-- Optional: Bootstrap JS for alerts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

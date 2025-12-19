@@ -1,0 +1,38 @@
+{% extends "based.html" %}
+{% block content %}
+
+<h2 class="mb-3">Menu Items</h2>
+
+<a href="{% url 'menu-add' %}" class="btn btn-primary mb-3">Add New Item</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Available</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>₹{{ item.price }}</td>
+            <td>
+                {% if item.available %}
+                    <span class="badge bg-success">Yes</span>
+                {% else %}
+                    <span class="badge bg-danger">No</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'menu-edit' item.id %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'menu-delete' item.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

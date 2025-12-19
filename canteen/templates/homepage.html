@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Home| SmartCanteen
+{% endblock title %}
+
+{% block extra_css %}
+  <style>
+    
+    .hero { text-align: center; padding: 70px 20px 100px 20px; background: #f0f8ff; }
+    .hero h1 { font-size: 3em; color: #0a74da; }
+    .hero p { font-size: 1.2em; color: #333; }
+    .cta { background: #0a74da; color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; }
+
+  .search-bar input:focus {
+    border: 2.5px solid #0a74da !important;
+    outline: none;
+}
+
+input {width:500px;}
+
+  .search-bar input{
+    width:970px;
+    height:45px;
+    border-radius:25px;
+    font-size:20px;
+    padding-left:20px;
+    border:2px solid #0a74da
+  }
+
+  .search-bar input:hover{
+    border:2.5px solid #0a74da;
+  }  
+
+
+.recommendations {padding: 60px 50px;text-align: center;background: #f9fbff}
+
+.recommendations h2 {color: #0a74da;font-size: 2em;margin-bottom: 10px;}
+.recommendations p {color: #555;margin-bottom: 40px;}
+.recommend-grid {display: flex;flex-wrap: wrap;justify-content: center;gap: 30px;}
+.food-card {background: white;border-radius: 10px;box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);width: 250px;padding: 20px;text-align: center;transition: transform 0.3s ease;}
+
+.food-card:hover {  transform: translateY(-5px);}
+.food-card img { width: 100%; height: 160px; border-radius: 10px; object-fit: cover;}
+.food-card h3 {margin: 15px 0 5px;color: #0a74da;}
+.food-card p {font-size: 0.95em;color: #444;}
+
+.food-card button { background: #0a74da; color: white; border: none; padding: 10px 18px; border-radius: 5px; cursor: pointer; margin-top: 10px;}
+.food-card a{color:white;text-decoration:none} 
+.food-card button:hover {background: #085bb0;}
+  .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 250px; }
+    footer { background: #0a74da; color: white; text-align: center; padding: 20px; }
+  </style>
+  {% endblock extra_css %}
+  
+{% block content %}
+<section class="hero">
+  <div class="search-bar mb-3">
+  <form method="get" action="{% url 'search_food' %}">
+    <input type="text" name="q" placeholder="Search for food or category..." value="{{ query }}" style="width:500px; padding:12px;">
+</form>
+</div>
+  <h1>Order Smart. Eat Fresh. Save Time.</h1>
+  <p>Skip the line and order your meal ahead with our smart canteen system.</p>
+  <a href="{% url 'menu'%}" class="cta">Order Now</a>
+</section>
+
+<section class="recommendations">
+  <h2>Recommended For You 🍽️</h2>
+  <p>Based on your preferences and popular choices</p>
+  <div class="recommend-grid">
+    <div class="food-card">
+      <img src={% static "image/samosa.jpg" %} alt="Samosa" />
+      <h3>Samosa</h3>
+      <p>Crispy pastry filled with spiced potatoes and peas.</p>
+      <button class="btn btn-primary"><a href="{% url 'add_to_cart' 5 %}">Add to Cart</a></button>
+    </div>
+    <div class="food-card">
+      <img src={% static "image/breadbada.jpg" %} alt="bread bada" />
+      <h3>Bread Bada</h3>
+      <p>Rich and cheesy pasta with a hint of garlic flavor.</p>
+      <button class="btn btn-primary"><a href="{% url 'add_to_cart' 9 %}">Add to Cart</a></button>
+    </div>
+    <div class="food-card">
+      <img src={% static "image/poha.jpg" %} alt="Poha" />
+      <h3>Poha</h3>
+      <p>Refreshing mix of berries and yogurt for a perfect drink.</p>
+      <button class="btn btn-primary"><a href="{% url 'add_to_cart' 8 %}">Add to Cart</a></button>
+    </div>
+    <div class="food-card">
+      <img src={% static "image/kachori.jpg" %} alt="kachori"/>
+      <h3>Kachori</h3>
+      <p>Light and tasty sandwich packed with fresh vegetables.</p>
+      <button class="btn btn-primary"><a href="{% url 'add_to_cart' 6 %}">Add to Cart</a></button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 SmartCanteen. All rights reserved.</p>
+</footer>
+{% endblock content %}
+

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<div class="contact-container">
+{% if messages %}
+   {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+     {{ message }}
+     <button type="button" class="btn-close" data-bs-dismiss="alert"  aria-label="Close"></button> 
+    </div>
+   {% endfor %}
+  {% endif %}
+    <div class="contact-header">
+        <img src="{% static 'image/Scanteen.png' %}" class="contact-logo">
+        <h2>Smart Canteen</h2>
+        <p>We'd love to hear from you!</p>
+    </div>
+
+    <div class="contact-info">
+
+        <div class="info-box">
+            <i class="fa-solid fa-location-dot icon"></i>
+            <p>Mahakal Institute of Technology,MIT Campus<br>
+            Behind Air Strip, Dewas Road, Ujjain, Madhya Pradesh - 456010 (India)</p>
+        </div>
+
+        <div class="info-box">
+            <i class="fa fa-envelope icon"></i>
+            <p>smartcanteen2025@gmail.com</p>
+        </div>
+
+        <div class="info-box">
+            <i class="fa fa-phone icon"></i>
+            <p>+91  558 955 4885</p>
+        </div>
+
+        <div class="social-icons">
+            <i class="fa-brands fa-x-twitter"></i>
+            <i class="fa-brands fa-meta"></i>
+            <i class="fa-brands fa-square-instagram"></i>
+            <i class="fa-brands fa-linkedin"></i>
+        </div>
+    </div>
+
+    <form method="POST" class="contact-form">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <input type="text" name="phone" placeholder="Phone Number" required>
+        <textarea name="message" placeholder="Message" rows="4" required></textarea>
+
+        <button type="submit" class="send-btn">Send Message</button>
+    </form>
+</div>
+
+<style>
+.contact-container {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contact-logo {
+    width: 90px;
+    margin-bottom: 10px;
+}
+
+.contact-info .info-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.icon {
+    color: blue;
+    font-size: 24px;
+    margin-right: 12px;
+    margin-bottom:14px;
+}
+
+.social-icons i {
+    margin-right: 12px;
+    font-size: 22px;
+    color: blue;
+    cursor:pointer;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid blue;
+    border-radius: 5px;
+    outline: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #007bff;
+}
+
+.send-btn {
+    width: 100%;
+    padding: 12px;
+    background: blue;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+}
+</style>
+
+{% endblock %}

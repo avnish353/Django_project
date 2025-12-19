@@ -1,0 +1,15 @@
+{% extends "based.html" %}
+{% block content %}
+
+<h2>{{ form.instance.pk|yesno:"Edit Menu Item,Add New Menu Item" }}</h2>
+
+<form method="POST" enctype="multipart/form-data" class="mt-3">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button class="btn btn-success">Save</button>
+    <a href="{% url 'menu-items' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}

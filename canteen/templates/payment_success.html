@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Successful Payment{% endblock title %}
+{% block content %}
+
+<h2 style="text-align:center;">Payment Successful ✔</h2>
+<p style="text-align:center; color: green; font-size: 18px; margin-top: 10px;">
+    Your order has been placed ✔
+</p>
+
+<div class="bill-box">
+    <h3>SmartCanteen Bill</h3>
+     
+    <p><strong>Order ID:</strong> {{ order_id }}</p>
+    <p><strong>Name:</strong> {{ fullname }}</p>
+    <p><strong>Email:</strong> {{ email }}</p>
+    <p><strong>Phone:</strong> {{ phone }}</p>
+    <p><strong>Total Amount Paid:</strong> ₹{{ amount }}</p>
+    <p><strong>Order Date:</strong> {{ order_datetime|date:"d M Y" }}</p>
+    <p><strong>Order Time:</strong> {{ order_datetime|time:"h:i A" }}</p>
+    <hr>
+    <p>Thank you for ordering with SmartCanteen!</p>
+    <a href="{% url 'download_receipt' %}?name={{ fullname }}&email={{ email }}&phone={{ phone }}&amount={{ amount }}&date={{ order_datetime|date:'Y-m-d' }}&time={{ order_datetime|time:'H:i' }}" 
+   class="btn btn-primary" 
+   style="margin-top:15px; display:block; width:200px; text-align:center; margin:auto;">
+    Download Receipt <i class="fa-solid fa-download"></i>
+   </a>
+
+</div>
+
+<style>
+.bill-box {
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid #0a74da;
+    border-radius: 10px;
+    background: #f0f8ff;
+}
+</style>
+
+{% endblock %}

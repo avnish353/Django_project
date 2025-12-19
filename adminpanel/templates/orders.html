@@ -1,0 +1,58 @@
+{% extends "based.html" %}
+{% block content %}
+
+<h2 class="mb-3">Orders</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Total</th>
+            <th>Items</th> <!-- New column -->
+            <th>Status</th>
+            <th>Created</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for o in orders %}
+        <tr>
+            <td>#{{ o.id }}</td>
+            <td>{{ o.customer.first_name }} {{ o.customer.last_name }}</td>
+            <td>₹{{ o.total_price }}</td>
+
+            <!-- Items Column -->
+            <td>
+            {% for item in o.orderitem_set.all %}
+               {{ item.item.name }} (x{{ item.quantity }}){% if not forloop.last %}, {% endif %}
+                  {% empty %}
+                  No items
+                {% endfor %}
+            </td>
+        
+            <!-- Status Form -->
+            <td>
+                <form method="post" action="{% url 'update-order-status' o.id %}">
+                    {% csrf_token %}
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="Pending" {% if o.status == "Pending" %}selected{% endif %}>Pending</option>
+                        <option value="Preparing" {% if o.status == "Preparing" %}selected{% endif %}>Preparing</option>
+                        <option value="Ready" {% if o.status == "Ready" %}selected{% endif %}>Ready</option>
+                        <option value="Picked Up" {% if o.status == "Picked Up" %}selected{% endif %}>Picked Up</option>
+                    </select>
+            </td>
+            
+            <td>{{ o.timestamp }}</td>
+            
+            <!-- Update Button -->
+            <td>
+                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

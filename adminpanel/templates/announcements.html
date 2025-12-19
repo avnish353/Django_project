@@ -1,0 +1,26 @@
+{% extends "based.html" %}
+{% block content %}
+
+<h2 class="mb-3">Announcements</h2>
+
+<form method="POST" class="mb-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary">Publish</button>
+</form>
+
+<h4>Previous Announcements</h4>
+
+<ul class="list-group mt-3">
+    {% for a in msgs %}
+    <li class="list-group-item">
+        <strong>{{ a.title }}</strong>  
+        <br>
+        {{ a.message }}
+        <br>
+        <small class="text-muted">{{ a.created_at }}</small>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
