@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+import pymysql
+pymysql.install_as_MySQLdb()
 """
 Django settings for smart_canteen project.
 
