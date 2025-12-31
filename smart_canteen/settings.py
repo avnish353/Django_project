@@ -29,6 +29,9 @@ SECRET_KEY = 'django-insecure-hznp03p-thjazbi*+plnej!j#7xoa1@7jg8(u#ra6hp&x+!x(w
 DEBUG = False
 
 ALLOWED_HOSTS = ['.onrender.com']
+CSRF_TRUSTED_ORIGINS = [
+    'https://django-project-1-gtra.onrender.com'
+]
 
 
 # Application definition
@@ -154,3 +157,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'avnishsharma6268@gmail.com'
 EMAIL_HOST_PASSWORD = 'wszx haiy yprv eddw'
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
