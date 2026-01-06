@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import pymysql
+import dj_database_url
 pymysql.install_as_MySQLdb()
 """
 Django settings for smart_canteen project.
@@ -91,18 +92,23 @@ WSGI_APPLICATION = 'smart_canteen.wsgi.application'
 import os
 
 DATABASES = {
-    'default': {
+       'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'SECRET_KEY' : os.environ.get('SECRET_KEY'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '3306'),
+        'NAME': 'smart_canteen_db',
+        'USER': 'root',
+        'PASSWORD': 'avnish123',
+        'HOST': 'localhost',
+        'PORT': '3306',
+
     }
 }
 
-
+# Override DB in production (Render)
+if os.environ.get("DATABASE_URL"):
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600,
+        ssl_require=True
+    )
 
 
 
