@@ -1,8 +1,6 @@
 import os
 from pathlib import Path
-import pymysql
 import dj_database_url
-pymysql.install_as_MySQLdb()
 """
 Django settings for smart_canteen project.
 
@@ -14,6 +12,11 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+
+ENV = os.getenv("ENV", "development")
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,11 +30,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-hznp03p-thjazbi*+plnej!j#7xoa1@7jg8(u#ra6hp&x+!x(w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['django-project-1-gtra.onrender.com',
-    'localhost',
-    '127.0.0.1',]
+
+ALLOWED_HOSTS = ["localhost",
+    "127.0.0.1",
+    ".onrender.com",]
 CSRF_TRUSTED_ORIGINS = [
     'https://django-project-1-gtra.onrender.com'
 ]
@@ -89,26 +92,31 @@ WSGI_APPLICATION = 'smart_canteen.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-import os
 
-DATABASES = {
-       'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'smart_canteen_db',
-        'USER': 'root',
-        'PASSWORD': 'avnish123',
-        'HOST': 'localhost',
-        'PORT': '3306',
 
+if ENV == "production":
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get("DATABASE_URL"),
+            conn_max_age=600,
+            ssl_require=True,
+        )
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.getenv("MYSQL_DB", "smart_canteen_db"),
+            "USER": os.getenv("MYSQL_USER", "root"),
+            "PASSWORD": os.getenv("MYSQL_PASSWORD"),
+            "HOST": os.getenv("MYSQL_HOST", "localhost"),
+            "PORT": os.getenv("MYSQL_PORT", "3306"),
+            "OPTIONS": {
+                "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
 
-# Override DB in production (Render)
-if os.environ.get("DATABASE_URL"):
-    DATABASES['default'] = dj_database_url.config(
-        conn_max_age=600,
-        ssl_require=True
-    )
 
 
 
@@ -172,7 +180,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'avnishsharma6268@gmail.com'
 EMAIL_HOST_PASSWORD = 'wszx haiy yprv eddw'
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = ENV == "production"
+SESSION_COOKIE_SECURE = ENV == "production"
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
