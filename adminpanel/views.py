@@ -12,6 +12,16 @@ from django.dispatch import receiver
 def superuser_required(view_func):
     return user_passes_test(lambda user: user.is_superuser)(view_func)
 
+from django.contrib.auth import get_user_model
+
+def create_admin():
+    User = get_user_model()
+    if not User.objects.filter(username="admin").exists():
+        User.objects.create_superuser(
+            "admin",
+            "admin@example.com",
+            "admin123"
+        )
 
 def admin_login(request):
     if request.user.is_authenticated and request.user.is_superuser:
