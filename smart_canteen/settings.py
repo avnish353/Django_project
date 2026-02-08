@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-import dj_database_url
 """
 Django settings for smart_canteen project.
 
@@ -27,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hznp03p-thjazbi*+plnej!j#7xoa1@7jg8(u#ra6hp&x+!x(w'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -94,28 +93,21 @@ WSGI_APPLICATION = 'smart_canteen.wsgi.application'
 
 
 
-if ENV == "production":
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=os.environ.get("DATABASE_URL"),
-            conn_max_age=600,
-            ssl_require=True,
-        )
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": os.environ.get("DB_PORT", "3306"),
+        "OPTIONS": {
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": os.getenv("MYSQL_DB", "smart_canteen_db"),
-            "USER": os.getenv("MYSQL_USER", "root"),
-            "PASSWORD": os.getenv("MYSQL_PASSWORD"),
-            "HOST": os.getenv("MYSQL_HOST", "localhost"),
-            "PORT": os.getenv("MYSQL_PORT", "3306"),
-            "OPTIONS": {
-                "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-            },
-        }
-    }
+}
+
 
 
 
@@ -178,7 +170,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'avnishsharma6268@gmail.com'
-EMAIL_HOST_PASSWORD = 'wszx haiy yprv eddw'
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 
 CSRF_COOKIE_SECURE = ENV == "production"
